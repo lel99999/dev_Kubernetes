@@ -22,4 +22,53 @@ $sudo systemctl start kubelet
 ```
 
 #### Set Hostnames on Nodes
+```
+$sudo hostnamectl set-hostname master-node
+$sudo hostnamectl set-hostname worker-node1
 
+$sudo vi /etc/hosts
+
+192.168.1.10 master.local master-node
+192.168.1.20 node1.local node1 worker-node
+```
+
+#### Configure Firewall
+# On Master-node: <br/>
+```
+$sudo firewall-cmd --permanent --add-port=6443/tcp
+$sudo firewall-cmd --permanent --add-port=2379-2380/tcp
+$sudo firewall-cmd --permanent --add-port=10250/tcp
+$sudo firewall-cmd --permanent --add-port=10251/tcp
+$sudo firewall-cmd --permanent --add-port=10252/tcp
+$sudo firewall-cmd --permanent --add-port=10255/tcp
+$sudo firewall-cmd --reload
+```
+
+# On worker-node: <br/>
+```
+$sudo firewall-cmd --permanent --add-port=10251/tcp
+$sudo firewall-cmd --permanent --add-port=10255/tcp
+$firewall-cmd --reload
+```
+
+#### Update IPTables Settings
+```
+cat <<EOF > /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sysctl --system
+```
+
+#### Disable SELinux
+```
+$sudo setenforce 0
+$sudo sed -i ‘s/^SELINUX=enforcing$/SELINUX=permissive/’ /etc/selinux/config
+```
+
+#### Disable SWAP
+```
+$sudo sed -i '/swap/d' /etc/fstab
+$sudo swapoff -a
+
+```
