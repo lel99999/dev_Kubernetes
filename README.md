@@ -14,12 +14,22 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 EOF
 ```
 
-#### Install kubelet, kubeadm, and kubectl
+#### Install kubelet, kubeadm, and kubectl (RHEL7)
 ```
 $sudo yum install -y kubelet kubeadm kubectl
 $sudo systemctl enable kubelet
 $sudo systemctl start kubelet
 ```
+
+#### Install for Mac
+- Installing Docker
+  - [https://docs.docker.com/install/ #supported-platforms](https://docs.docker.com/install/ #supported-platforms) <br/>
+
+- Installing kubectl
+  - [https://kubernetes.io/docs/tasks/tools/install-kubectl/](https://kubernetes.io/docs/tasks/tools/install-kubectl/) <br/>
+
+- Installing Minikube
+  - [https://kubernetes.io/docs/tasks/tools/install-minikube/](https://kubernetes.io/docs/tasks/tools/install-minikube/) <br/>
 
 #### Set Hostnames on Nodes
 ```
